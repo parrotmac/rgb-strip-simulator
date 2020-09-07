@@ -1,0 +1,59 @@
+.App {
+  text-align: center;
+}
+
+@mixin on-circle($item-count, $circle-size, $item-size) {
+  position: relative;
+  width: $circle-size;
+  height: $circle-size;
+  padding: 0;
+  border-radius: 50%;
+  list-style: none;
+
+  > * {
+    display: block;
+    position: absolute;
+    border: 2px solid black;
+    border-radius: 2em;
+    top: 50%;
+    left: 50%;
+    width: $item-size;
+    height: $item-size;
+    margin: -($item-size / 2);
+
+    $angle: (360 / $item-count);
+    $rot: 0;
+
+    @for $i from 1 through $item-count {
+      &:nth-of-type(#{$i}) {
+        transform: rotate($rot * 1deg) translate($circle-size / 2) rotate($rot * -1deg);
+      }
+
+      $rot: $rot + $angle;
+    }
+  }
+}
+
+.ring {
+  &#big-ring {
+    @include on-circle($item-count: 60, $circle-size: 40em, $item-size: 1em);
+  }
+  &#little-ring {
+    @include on-circle($item-count: 24, $circle-size: 15em, $item-size: 1em);
+    bottom: 32em;
+  }
+  margin: 5em auto 0;
+  border: solid 2px aquamarine;
+}
+
+#hex {
+  top: 0;
+  left: 0;
+  display: block;
+  position: absolute;
+  z-index: 999;
+  height: 100%;
+  width: 100vw;
+  background-color: rgba(200, 200, 200, 0.00);
+  backdrop-filter: blur(10px);
+}
